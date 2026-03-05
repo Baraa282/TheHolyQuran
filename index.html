@@ -78,6 +78,15 @@
             font-display: swap;
         }
 
+        /* Custom palette: frame uses --surah-header-frame-color, text stays --text-surah-header */
+        @font-palette-values --surah-header-palette {
+            font-family: 'surah-header';
+            base-palette: 0;
+            override-colors:
+                0 var(--surah-header-frame-color),
+                1 var(--text-surah-header);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -403,8 +412,8 @@
         .surah-header-name {
             font-family: 'surah-header', 'surah-name-v4-icon', 'Amiri', serif;
             font-size: clamp(3rem, 8vw, 5rem);
-            color: var(--text-surah-header);
-            font-weight: normal;
+            color: var(--surah-header-frame-color);
+            font-weight: 400;
             line-height: 1;
             text-align: center;
             white-space: nowrap;
@@ -424,8 +433,8 @@
 
         .surah-name {
             font-size: var(--text-size-title);
-            font-weight: 600;
-            color: var(--text-surah);
+            font-weight: 800;
+            color: var(--text-surah-header);
             margin: 0 auto;
             padding: 0;
             font-family: 'surah-name-v4-icon', 'Amiri', 'Noto Naskh Arabic', serif;
@@ -728,6 +737,8 @@
 
         .juz-ligature {
             font-family: 'common/quran-common', serif;
+            font-weight: 700;
+            color: inherit;
         }
 
         #juzNumber {
@@ -746,9 +757,9 @@
         }
 
         .header-text {
-            color: var(--text-secondary);
+            color: var(--text-primary);
             font-size: 17px;
-            font-weight: 500;
+            font-weight: 600;
             direction: rtl;
             font-family: 'Amiri', 'Noto Naskh Arabic', serif;
             cursor: pointer;
@@ -850,7 +861,7 @@
 
         .surah-item-name {
             color: var(--text-secondary);
-            font-weight: 500;
+            font-weight: 700;
             font-size: 18px;
             transition: color 0.3s ease;
             font-family: 'Amiri', 'Noto Naskh Arabic', serif;
@@ -1090,7 +1101,7 @@
 
             .header-text {
                 font-size: 15px;
-                font-weight: 500;
+                font-weight: 700;
                 letter-spacing: 0.01em;
             }
 
@@ -1137,7 +1148,8 @@
             --text-quaternary: #333;
             --text-quinary: #555;
             --text-surah: #0d0d0d;
-            --text-surah-header: #1e2016;
+            --text-surah-header: #0a0a0a;
+            --surah-header-frame-color: #4a6741;
             --text-bismillah: #0d0d0d;
             --border-color: rgba(0, 0, 0, 0.1);
             --border-divider: rgba(0, 0, 0, 0.15);
@@ -1176,6 +1188,7 @@
             --text-quinary: #a0a0a0;
             --text-surah: #f0f0f0;
             --text-surah-header: #f0f0f0;
+            --surah-header-frame-color: #5c7c52;
             --text-bismillah: #f0f0f0;
             --border-color: rgba(255, 255, 255, 0.1);
             --border-divider: rgba(255, 255, 255, 0.15);
