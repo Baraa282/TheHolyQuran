@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Settings</title>
+<link rel="icon" type="image/jpeg" href="2.jpg">
+<link rel="apple-touch-icon" href="2.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #8A9A5B;
+    --bg: #f8f8f8;
+    --panel: #fff;
+    --divider: #d9d9d9;
+    --label: #6e6e6e;
+    --text: #000;
+  }
+  body.dark {
+    --bg: #121212;
+    --panel: #1e1e1e;
+    --divider: #333;
+    --label: #9e9e9e;
+    --text: #fff;
+    --teal: #26a69a;
+  }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.3s, color 0.3s;
+    touch-action: manipulation;
+  }
+  .navbar {
+    background: var(--teal);
+    color: #fff;
+    text-align: center;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 44px;
+    height: 44px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .navbar-back {
+    position: absolute;
+    left: 20px;
+    background: #fff;
+    border: 2px solid var(--teal);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 0;
+    transition: all 0.3s ease;
+    padding: 0;
+    touch-action: manipulation;
+  }
+  .navbar-back svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--teal);
+    transition: stroke 0.3s ease;
+  }
+  .navbar-back:hover {
+    background: var(--teal);
+  }
+  .navbar-back:hover svg {
+    stroke: white;
+  }
+  .section {
+    margin-top: 20px;
+  }
+  .section-header {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--label);
+    padding: 6px 15px;
+    text-transform: uppercase;
+  }
+  .group {
+    background: var(--panel);
+    border-top: 1px solid var(--divider);
+    border-bottom: 1px solid var(--divider);
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-top: 1px solid var(--divider);
+    font-size: 16px;
+  }
+  .row:first-child {
+    border-top: none;
+  }
+  .row label {
+    color: var(--text);
+  }
+  .label-arabic {
+    font-family: 'Amiri', 'Noto Naskh Arabic', 'Arial', 'Tahoma', sans-serif;
+    font-weight: 500;
+    margin-right: 6px;
+    direction: rtl;
+    display: inline-block;
+  }
+  .section-header-arabic {
+    font-family: 'Amiri', 'Noto Naskh Arabic', 'Arial', 'Tahoma', sans-serif;
+    font-weight: 600;
+    margin-right: 6px;
+    direction: rtl;
+    display: inline-block;
+  }
+  select {
+    font-size: 16px;
+    border: none;
+    background: transparent;
+    color: var(--label);
+    appearance: none;
+    outline: none;
+    touch-action: manipulation;
+  }
+  /* Toggle switch */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 26px;
+    touch-action: manipulation;
+  }
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 26px;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px; width: 20px;
+    left: 3px; bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  input:checked + .slider {
+    background-color: var(--teal);
+  }
+  input:checked + .slider:before {
+    transform: translateX(20px);
+  }
+  .row a {
+    color: var(--teal);
+    text-decoration: none;
+    touch-action: manipulation;
+  }
+  .row a:hover {
+    text-decoration: underline;
+  }
+  .contact-info {
+    color: var(--teal);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    transition: opacity 0.2s;
+    touch-action: manipulation;
+  }
+  .contact-info:hover {
+    opacity: 0.7;
+  }
+  .contact-info svg {
+    width: 24px;
+    height: 24px;
+  }
+  .footer-quote {
+    margin: 30px 15px;
+    padding: 20px;
+    text-align: center;
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.8;
+    font-family: 'Amiri', 'Noto Naskh Arabic', 'Arial', 'Tahoma', sans-serif;
+    direction: rtl;
+    font-style: italic;
+    opacity: 0.8;
+  }
+  @media (max-width: 600px) {
+    .row { font-size: 15px; }
+    .footer-quote {
+      font-size: 14px;
+      margin: 25px 10px;
+      padding: 15px;
+    }
+    .navbar-back {
+      left: 15px;
+      width: 36px;
+      height: 36px;
+    }
+    .navbar-back svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+</style>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+  <div class="navbar">
+    <button class="navbar-back" onclick="window.location.href='index.html'" title="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+    </button>
+    Settings <span class="label-arabic">(الإعدادات)</span>
+  </div>
+
+  <!-- TEXT -->
+  <div class="section">
+    <div class="section-header">TEXT <span class="section-header-arabic">(النص)</span></div>
+    <div class="group">
+      <div class="row">
+        <label>Translation <span class="label-arabic">(الترجمة)</span></label>
+        <select id="translation">
+          <option value="ar">Arabic (tafsir muyassar)</option>
+          <option value="ar-irab">Arabic (i'rab al-muyassar)</option>
+          <option value="en">English (abridged explanation)</option>
+          <option value="bn">Kurmanj-kurdish</option>
+          <option value="bs">Bosnian</option>
+          <option value="cs">Czech</option>
+          <option value="de">German</option>
+          <option value="el">Greek</option>
+          <option value="fr">French</option>
+          <option value="hi">Hindi</option>
+          <option value="id">Indonesian</option>
+          <option value="it">Italian</option>
+          <option value="ja">Japanese</option>
+          <option value="ku-rebar">Kurdish (tafsir rebar)</option>
+          <option value="ku">Kurdish</option>
+          <option value="fa">Persian</option>
+          <option value="ru">Russian</option>
+          <option value="sq">Albanian</option>
+          <option value="es">Spanish</option>
+          <option value="sv">Swedish</option>
+          <option value="tr">Turkish</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUDIO -->
+  <div class="section">
+    <div class="section-header">AUDIO <span class="section-header-arabic">(الصوت)</span></div>
+    <div class="group">
+      <div class="row">
+        <label>Reciter <span class="label-arabic">(القارئ)</span></label>
+        <select id="reciter">
+          <option value="mishari">Mishari Al-Afasy</option>
+        </select>
+      </div>
+      <div class="row">
+        <label>Speed <span class="label-arabic">(السرعة)</span></label>
+        <select id="speed">
+          <option value="0.5">0.5x</option>
+          <option value="0.75">0.75x</option>
+          <option value="1" selected>1.0x</option>
+          <option value="1.25">1.25x</option>
+          <option value="1.5">1.5x</option>
+          <option value="2">2.0x</option>
+        </select>
+      </div>
+      <div class="row">
+        <label>Aya Repeat <span class="label-arabic">(تكرار الآية)</span></label>
+        <select id="repeat">
+          <option value="always">Always</option>
+          <option value="continue" selected>Continue</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISPLAY -->
+  <div class="section">
+    <div class="section-header">DISPLAY <span class="section-header-arabic">(العرض)</span></div>
+    <div class="group">
+      <div class="row">
+        <label>Font Size <span class="label-arabic">(حجم الخط)</span></label>
+        <select id="fontSize">
+          <option value="12">12px</option>
+          <option value="14">14px</option>
+          <option value="16">16px</option>
+          <option value="18">18px</option>
+          <option value="20" selected>20px</option>
+          <option value="20.5">20.5px</option>
+          <option value="21.5">21.5px</option>
+          <option value="22">22px</option>
+          <option value="24">24px</option>
+          <option value="26">26px</option>
+          <option value="28">28px</option>
+          <option value="30">30px</option>
+          <option value="32">32px</option>
+        </select>
+      </div>
+      <div class="row">
+        <label>Night Mode <span class="label-arabic">(الوضع الليلي)</span></label>
+        <label class="switch">
+          <input type="checkbox" id="nightToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="row">
+        <label>Show Tajweed Colors <span class="label-arabic">(إظهار ألوان التجويد)</span></label>
+        <label class="switch">
+          <input type="checkbox" id="tajweedColorsToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="section">
+    <div class="section-header">CONTACT <span class="section-header-arabic">(اتصل)</span></div>
+    <div class="group">
+      <div class="row">
+        <label>Contact Me <span class="label-arabic">(اتصل بي)</span></label>
+        <a href="mailto:umayyad662@outlook.com" class="contact-info" title="Email">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER QUOTE -->
+  <div class="footer-quote">
+    &laquo; هذا العمل صدقة جارية لوالديّ اللذين غرسا في قلبي حبّ الخير، وإهداء محبة ووفاء لزوجتي التي كانت عوني وسكني &raquo;
+  </div>
+
+<script>
+  const body = document.body;
+  const toggle = document.getElementById('nightToggle');
+  const fontSize = document.getElementById('fontSize');
+  const repeat = document.getElementById('repeat');
+  const speed = document.getElementById('speed');
+  const translationSelect = document.getElementById('translation');
+  const tajweedColorsToggle = document.getElementById('tajweedColorsToggle');
+
+  // Apply font size
+  fontSize.addEventListener('change', () => {
+    localStorage.setItem('fontSize', fontSize.value);
+    // Dispatch custom event for same-window updates
+    window.dispatchEvent(new Event('fontSizeChanged'));
+  });
+
+  // Night mode toggle
+  toggle.addEventListener('change', () => {
+    body.classList.toggle('dark', toggle.checked);
+    localStorage.setItem('night', toggle.checked);
+  });
+
+  // Aya repeat setting
+  repeat.addEventListener('change', () => {
+    localStorage.setItem('ayahRepeat', repeat.value);
+  });
+
+  // Audio speed setting
+  speed.addEventListener('change', () => {
+    localStorage.setItem('audioSpeed', speed.value);
+  });
+
+  // Translation language
+  translationSelect.addEventListener('change', () => {
+    localStorage.setItem('translationLang', translationSelect.value);
+  });
+
+  // Tajweed colors toggle
+  tajweedColorsToggle.addEventListener('change', () => {
+    localStorage.setItem('showTajweedColors', tajweedColorsToggle.checked);
+    // Dispatch event for same-window updates
+    window.dispatchEvent(new Event('tajweedColorsChanged'));
+  });
+
+  // Load saved settings
+  if (localStorage.getItem('night') === 'true') {
+    toggle.checked = true;
+    body.classList.add('dark');
+  }
+  if (localStorage.getItem('fontSize')) {
+    fontSize.value = localStorage.getItem('fontSize');
+  } else {
+    // Set default to 20px
+    fontSize.value = '20';
+    localStorage.setItem('fontSize', '20');
+  }
+  if (localStorage.getItem('ayahRepeat')) {
+    repeat.value = localStorage.getItem('ayahRepeat');
+  }
+  if (localStorage.getItem('audioSpeed')) {
+    speed.value = localStorage.getItem('audioSpeed');
+  }
+  if (localStorage.getItem('translationLang')) {
+    translationSelect.value = localStorage.getItem('translationLang');
+  }
+  if (localStorage.getItem('showTajweedColors') === 'true') {
+    tajweedColorsToggle.checked = true;
+  } else {
+    // Default to false (unchecked) if not set
+    tajweedColorsToggle.checked = false;
+    if (localStorage.getItem('showTajweedColors') === null) {
+      localStorage.setItem('showTajweedColors', 'false');
+    }
+  }
+</script>
+</body>
+</html>

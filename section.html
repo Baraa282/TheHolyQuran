@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Sticky notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #ecb2ba;
+      --pink-dark: #c6939a;
+      --tape-gray: #6B7A4A;
+      --tape-edge-gray: #5a6640;
+      --transparent: rgba(255, 255, 255, 0);
+    }
+
+    html {
+      touch-action: manipulation;
+    }
+    body {
+      background: #F5F1E8;
+      padding: 20px;
+      padding-top: 48px;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      touch-action: manipulation;
+    }
+
+    .pink {
+      --paper-color: var(--pink);
+      --paper-dark: var(--pink-dark);
+      --shadow-size: 1px;
+      --transparent: rgba(236, 178, 186, 0);
+    }
+
+    .blue {
+      --paper-color: #d5e0f9;
+      --paper-dark: #c2d0ea;
+      --shadow-size: 3px;
+      --transparent: rgba(213, 224, 249, 0);
+    }
+
+    .green {
+      --paper-color: #d4edda;
+      --paper-dark: #b8dfc0;
+      --shadow-size: 2px;
+      --transparent: rgba(212, 237, 218, 0);
+    }
+
+    .paper-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .paper-link:hover,
+    .paper-link:visited,
+    .paper-link:active,
+    .paper-link:focus {
+      text-decoration: none;
+      color: inherit;
+    }
+    .paper-link .paper,
+    .paper-link .paper p {
+      color: inherit;
+    }
+
+    .paper {
+      position: relative;
+      background: linear-gradient(
+          to bottom right,
+          var(--paper-dark),
+          20%,
+          var(--transparent)
+        ),
+        var(--paper-color);
+      width: 260px;
+      height: 130px;
+      min-width: 260px;
+      min-height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Amiri", "Traditional Arabic", "Simplified Arabic", serif;
+      font-size: 2.25rem;
+      font-weight: 400;
+      box-shadow: var(--shadow-size) var(--shadow-size) 2px var(--paper-dark);
+      margin: auto;
+      margin-top: 24px;
+    }
+
+    .paper-link:first-of-type .paper {
+      margin-top: 80px;
+    }
+
+    .paper p {
+      margin: 0;
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+    }
+
+    .paper::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+          var(--transparent),
+          50%,
+          var(--paper-dark),
+          51%,
+          var(--transparent)
+        ),
+        linear-gradient(
+          to right,
+          var(--transparent),
+          50%,
+          var(--paper-dark),
+          51%,
+          var(--transparent)
+        );
+    }
+
+    .tape-section {
+      position: absolute;
+      width: 100%;
+    }
+
+    .top-tape {
+      position: absolute;
+      height: 4vmin;
+      top: -5px;
+      width: 110%;
+      background-color: var(--tape-gray);
+      border-right: 1px dotted var(--tape-edge-gray);
+      border-left: 1px dotted var(--tape-edge-gray);
+      opacity: 0.5;
+    }
+
+    .tape-section:first-of-type {
+      top: 0;
+    }
+
+    .tape-section:last-of-type {
+      bottom: 0;
+    }
+
+    .tape-section::before,
+    .tape-section::after {
+      content: "";
+      width: 10vmin;
+      height: 4vmin;
+      position: absolute;
+      background-color: var(--tape-gray);
+      opacity: 0.5;
+      border-right: 1px dotted var(--tape-edge-gray);
+      border-left: 1px dotted var(--tape-edge-gray);
+    }
+
+    .tape-section:last-of-type::after {
+      transform: rotate(-45deg);
+      right: -4vmin;
+      top: -3vmin;
+    }
+
+    .tape-section:first-of-type::before {
+      transform: rotate(-45deg);
+      left: -4vmin;
+    }
+
+    .tape-section:first-of-type::after {
+      transform: rotate(45deg);
+      right: -4vmin;
+      top: 0;
+    }
+
+    .tape-section:last-of-type::before {
+      transform: rotate(45deg);
+      left: -4vmin;
+      bottom: 0;
+    }
+
+    /* Tablet and below */
+    @media (max-width: 768px) {
+      body {
+        padding: 16px;
+        padding-top: 44px;
+      }
+
+      .paper {
+        width: 90%;
+        max-width: 280px;
+        height: 120px;
+        min-height: 120px;
+        margin-top: 32px;
+        font-size: 2rem;
+      }
+
+      .paper p {
+        padding: 0 12px;
+      }
+    }
+
+    /* Phone */
+    @media (max-width: 480px) {
+      body {
+        padding: 12px;
+        padding-top: 52px;
+      }
+
+      .paper-link:first-of-type .paper {
+        margin-top: 88px;
+      }
+
+      .paper {
+        width: 92%;
+        max-width: 280px;
+        height: 110px;
+        min-height: 110px;
+        margin-top: 24px;
+        font-size: 1.75rem;
+      }
+
+      .paper p {
+        padding: 0 16px;
+      }
+
+      .top-tape {
+        height: 3.5vmin;
+      }
+
+      .tape-section::before,
+      .tape-section::after {
+        width: 8vmin;
+        height: 3.5vmin;
+      }
+    }
+
+    .navbar-back {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(250, 248, 244, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0,0,0,0.10);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border-radius: 8px;
+      z-index: 10;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      text-decoration: none;
+      color: #333;
+    }
+    .navbar-back svg {
+      width: 18px;
+      height: 18px;
+    }
+    .navbar-back:hover {
+      background: rgba(90, 143, 122, 0.12);
+      border-color: rgba(90, 143, 122, 0.35);
+      color: #333;
+    }
+  </style>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+  <a href="index.html" class="navbar-back" title="Back to main page" aria-label="Back to main page">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </a>
+  <a href="adiya.html" class="paper-link">
+    <div class="paper pink">
+      <div class="tape-section"></div>
+      <p>أَدْعِيَة</p>
+      <div class="tape-section"></div>
+    </div>
+  </a>
+  <a href="tadabr/index.html" class="paper-link">
+    <div class="paper blue">
+      <div class="top-tape"></div>
+      <p>تَدَبُّر</p>
+    </div>
+  </a>
+  <a href="Aqqida/index.html" class="paper-link">
+    <div class="paper green">
+      <div class="tape-section"></div>
+      <p>العَقِيدَة</p>
+      <div class="tape-section"></div>
+    </div>
+  </a>
+  <script>
+    document.addEventListener('dblclick', function (e) { e.preventDefault(); }, { passive: false });
+  </script>
+</body>
+</html>

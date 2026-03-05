@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قرآن كريم - صفحات المصحف</title>
+    <style>
+        @font-face {
+            font-family: 'UthmanicHafs_v2-0';
+            src: url('UthmanicHafs_v2-0 font/uthmanic_hafs_v20.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'KFGQPC_hafs_smart_4';
+            src: url('kfgqpc_hafs_smart_4/kfgqpc_hafs_smart_font/HafsSmart_08.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'UthmanicHafs';
+            src: url('fonts/UthmanicHafs1 Ver13.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'surah-name-v4-icon';
+            src: url('https://static-cdn.tarteel.ai/qul/fonts/surah-names/v4/surah-name-v4.woff2') format('woff2'),
+                 url('https://static-cdn.tarteel.ai/qul/fonts/surah-names/v4/surah-name-v4.woff') format('woff'),
+                 url('https://static-cdn.tarteel.ai/qul/fonts/surah-names/v4/surah-name-v4.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* CSS Variables for Light/Dark Mode */
+        :root {
+            --bg-primary: #f5f1e8;
+            --bg-secondary: #F0EAD6;
+            --bg-text: #f5f1e8;
+            --bg-item: white;
+            --text-primary: #000000;
+            --text-secondary: #1a1a1a;
+            --text-tertiary: #333;
+            --text-quaternary: #666;
+            --text-quinary: #999;
+            --teal-color: #8A9A5B;
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-text: #1a1a1a;
+            --bg-item: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --text-secondary: #f5f5f5;
+            --text-tertiary: #d0d0d0;
+            --text-quaternary: #b0b0b0;
+            --text-quinary: #888;
+            --teal-color: #26a69a;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg-primary);
+            padding: 20px;
+            transition: background 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .page-back-btn {
+            position: absolute;
+            left: 20px;
+            background: var(--bg-item);
+            border: 2px solid var(--teal-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .reset-btn {
+            position: absolute;
+            right: 20px;
+            background: var(--bg-item);
+            border: 2px solid #e74c3c;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .reset-btn:hover {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .page-back-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-primary);
+            transition: stroke 0.3s ease;
+        }
+
+        .page-back-btn:hover {
+            background: var(--teal-color);
+        }
+
+        .page-back-btn:hover svg {
+            stroke: white;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-family: 'Amiri', serif;
+            transition: color 0.3s ease;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: var(--teal-color);
+            font-size: 24px;
+            font-family: 'Amiri', 'Noto Naskh Arabic', serif;
+            margin-bottom: 20px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            transition: color 0.3s ease;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .page-number {
+            background: var(--bg-item);
+            border: 2px solid var(--teal-color);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--teal-color);
+            transition: all 0.3s ease;
+        }
+
+        .page-number:hover {
+            background: var(--teal-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .read-page {
+            background: var(--teal-color) !important;
+            color: white !important;
+            border-color: var(--teal-color) !important;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .modal-content {
+            background: var(--bg-primary);
+            padding: 0;
+            padding-top: 60px;
+            border-radius: 0;
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            overflow: hidden;
+            direction: rtl;
+            text-align: right;
+            transition: background 0.3s ease;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .modal-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .surah-title {
+            font-size: 32px;
+            color: var(--teal-color);
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+            font-family: 'Amiri', serif;
+            transition: color 0.3s ease;
+        }
+
+        .aya-text {
+            font-size: 28px;
+            line-height: 2.2;
+            color: var(--text-primary);
+            font-family: 'UthmanicHafs_v2-0', 'Amiri', serif;
+            transition: color 0.3s ease;
+        }
+
+        .mushaf-line {
+            display: block;
+            width: 100%;
+            text-align: justify;
+            margin-bottom: 0;
+            line-height: 2.2;
+            min-height: 1.3em;
+            word-spacing: 0.01em;
+            letter-spacing: 0;
+            text-align-last: right;
+        }
+
+        .ayah-text {
+            display: inline;
+            margin: 0;
+            padding: 0;
+            font-family: 'UthmanicHafs_v2-0', serif;
+            word-spacing: 0.02em;
+            letter-spacing: 0;
+            color: var(--text-primary);
+        }
+
+        .close-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 32px;
+            color: var(--text-quaternary);
+            transition: color 0.3s ease, background 0.3s ease;
+            z-index: 1002;
+            background: var(--bg-item);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .close-btn:hover {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--bg-secondary);
+            border-top: 4px solid var(--teal-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 1001;
+            transition: border-color 0.3s ease;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .mark-read-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--teal-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            z-index: 1002;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .mark-read-btn:hover {
+            opacity: 0.9;
+        }
+
+        .unmark-btn {
+            background: #e74c3c !important;
+        }
+
+        .unmark-btn:hover {
+            background: #c0392b !important;
+        }
+
+        .page-svg {
+            width: 100%;
+            max-width: 100%;
+            height: calc(100vh - 60px);
+            object-fit: contain;
+            display: block;
+            margin: 0;
+        }
+
+        html.modal-open {
+            overflow: hidden;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        html.modal-open::-webkit-scrollbar {
+            display: none;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body.modal-open::-webkit-scrollbar {
+            display: none;
+        }
+
+        .modal-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 1003;
+        }
+
+        .back-btn {
+            background: var(--bg-item);
+            border: 2px solid var(--teal-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .back-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-primary);
+            transition: stroke 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--teal-color);
+        }
+
+        .back-btn:hover svg {
+            stroke: white;
+        }
+
+        .mark-read-header-btn {
+            background: var(--bg-item);
+            color: var(--text-primary);
+            border: 2px solid var(--teal-color);
+            padding: 8px 16px;
+            border-radius: 0;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .mark-read-header-btn:hover {
+            background: var(--teal-color);
+            color: white;
+        }
+
+        .mark-read-header-btn.marked {
+            background: var(--bg-item);
+            border-color: #e74c3c;
+            color: var(--text-primary);
+        }
+
+        .mark-read-header-btn.marked:hover {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .modal-content {
+            padding-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 0 15px;
+            }
+
+            .page-back-btn {
+                left: 15px;
+                width: 36px;
+                height: 36px;
+            }
+
+            .page-back-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .reset-btn {
+                right: 15px;
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .page-number {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .modal-header {
+                height: 50px;
+                padding: 0 15px;
+            }
+
+            .back-btn {
+                width: 36px;
+                height: 36px;
+            }
+
+            .back-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .mark-read-header-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .page-subtitle {
+                font-size: 18px;
+            }
+
+            .modal-content {
+                padding: 0;
+                padding-top: 50px;
+                display: flex;
+                align-items: flex-start;
+                justify-content: center;
+            }
+
+            #page-content {
+                margin-top: -50px;
+            }
+
+            .page-svg {
+                width: 100%;
+                max-width: 100%;
+                height: calc(100vh - 50px);
+                object-fit: contain;
+                display: block;
+                margin: 0;
+            }
+            
+            .surah-title {
+                font-size: 28px;
+            }
+
+            .close-btn {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 28px;
+            }
+
+            .mark-read-btn {
+                bottom: 10px;
+                left: 10px;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+</head>
+<body>
+    <script src="data/quran/quran-data.js"></script>
+    <div class="spinner" id="spinner"></div>
+    <div class="container">
+        <div class="page-header">
+            <button class="page-back-btn" onclick="window.location.href='index.html'" title="Back">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <div>
+                <h1>Daily Quran</h1>
+                <div class="page-subtitle">ختمة القرآن</div>
+            </div>
+            <button class="reset-btn" onclick="resetAllPages()" title="Reset All Pages">
+                Reset All
+            </button>
+        </div>
+        <div class="calendar-grid" id="calendar"></div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-header">
+            <button class="back-btn" onclick="closeModal()" title="Back">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <button class="mark-read-header-btn" id="markReadHeaderBtn" onclick="togglePageMark()">تمت القراءة ✓</button>
+        </div>
+        <div class="modal-content">
+            <div id="page-content" class="aya-text"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = null;
+        const surahNames = {
+            1: 'الفاتحة',
+            2: 'البقرة',
+            3: 'آل عمران',
+            4: 'النساء',
+            5: 'المائدة',
+            6: 'الأنعام',
+            7: 'الأعراف',
+            8: 'الأنفال',
+            9: 'التوبة',
+            10: 'يونس',
+            11: 'هود',
+            12: 'يوسف',
+            13: 'الرعد',
+            14: 'إبراهيم',
+            15: 'الحجر',
+            16: 'النحل',
+            17: 'الإسراء',
+            18: 'الكهف',
+            19: 'مريم',
+            20: 'طه',
+            21: 'الأنبياء',
+            22: 'الحج',
+            23: 'المؤمنون',
+            24: 'النور',
+            25: 'الفرقان',
+            26: 'الشعراء',
+            27: 'النمل',
+            28: 'القصص',
+            29: 'العنكبوت',
+            30: 'الروم',
+            31: 'لقمان',
+            32: 'السجدة',
+            33: 'الأحزاب',
+            34: 'سبأ',
+            35: 'فاطر',
+            36: 'يس',
+            37: 'الصافات',
+            38: 'ص',
+            39: 'الزمر',
+            40: 'غافر',
+            41: 'فصلت',
+            42: 'الشورى',
+            43: 'الزخرف',
+            44: 'الدخان',
+            45: 'الجاثية',
+            46: 'الأحقاف',
+            47: 'محمد',
+            48: 'الفتح',
+            49: 'الحجرات',
+            50: 'ق',
+            51: 'الذاريات',
+            52: 'الطور',
+            53: 'النجم',
+            54: 'القمر',
+            55: 'الرحمن',
+            56: 'الواقعة',
+            57: 'الحديد',
+            58: 'المجادلة',
+            59: 'الحشر',
+            60: 'الممتحنة',
+            61: 'الصف',
+            62: 'الجمعة',
+            63: 'المنافقون',
+            64: 'التغابن',
+            65: 'الطلاق',
+            66: 'التحريم',
+            67: 'الملك',
+            68: 'القلم',
+            69: 'الحاقة',
+            70: 'المعارج',
+            71: 'نوح',
+            72: 'الجن',
+            73: 'المزمل',
+            74: 'المدثر',
+            75: 'القيامة',
+            76: 'الإنسان',
+            77: 'المرسلات',
+            78: 'النبأ',
+            79: 'النازعات',
+            80: 'عبس',
+            81: 'التكوير',
+            82: 'الانفطار',
+            83: 'المطففين',
+            84: 'الانشقاق',
+            85: 'البروج',
+            86: 'الطارق',
+            87: 'الأعلى',
+            88: 'الغاشية',
+            89: 'الفجر',
+            90: 'البلد',
+            91: 'الشمس',
+            92: 'الليل',
+            93: 'الضحى',
+            94: 'الشرح',
+            95: 'التين',
+            96: 'العلق',
+            97: 'القدر',
+            98: 'البينة',
+            99: 'الزلزلة',
+            100: 'العاديات',
+            101: 'القارعة',
+            102: 'التكاثر',
+            103: 'العصر',
+            104: 'الهمزة',
+            105: 'الفيل',
+            106: 'قريش',
+            107: 'الماعون',
+            108: 'الكوثر',
+            109: 'الكافرون',
+            110: 'النصر',
+            111: 'المسد',
+            112: 'الإخلاص',
+            113: 'الفلق',
+            114: 'الناس'
+        };
+
+        let quranText = null; // Store loaded qpc-hafs.json data
+        let tajweedData = null; // Store loaded qpc-hafs-tajweed.json data
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+
+        // Normalize qpc-hafs.json data (handles word-level or verse-level format)
+        function normalizeQpcData(rawData) {
+            if (!rawData || Array.isArray(rawData)) return rawData;
+            
+            const firstKey = Object.keys(rawData)[0];
+            const sample = firstKey ? rawData[firstKey] : null;
+            const looksWordLevel = sample && (sample.word || (sample.location && sample.location.split(':').length === 3));
+            if (!looksWordLevel) return rawData; // Already verse-level
+            
+            const verseMap = {};
+            
+            for (const key in rawData) {
+                if (!Object.prototype.hasOwnProperty.call(rawData, key)) continue;
+                const entry = rawData[key] || {};
+                
+                const locParts = (entry.location && typeof entry.location === 'string') ? entry.location.split(':') : [];
+                const surahNum = parseInt(entry.surah || locParts[0], 10);
+                const ayahNum = parseInt(entry.ayah || locParts[1], 10);
+                const wordNum = parseInt(entry.word || locParts[2] || '0', 10);
+                
+                if (!surahNum || !ayahNum) continue;
+                
+                const verseKey = `${surahNum}:${ayahNum}`;
+                if (!verseMap[verseKey]) {
+                    verseMap[verseKey] = {
+                        surah: surahNum,
+                        ayah: ayahNum,
+                        words: []
+                    };
+                }
+                
+                verseMap[verseKey].words.push({
+                    num: isNaN(wordNum) ? 0 : wordNum,
+                    text: entry.text || ''
+                });
+            }
+            
+            const normalized = {};
+            Object.keys(verseMap).forEach(key => {
+                const verse = verseMap[key];
+                verse.words.sort((a, b) => a.num - b.num);
+                const verseText = verse.words.map(w => w.text).join(' ').trim();
+                normalized[key] = {
+                    surah: verse.surah,
+                    ayah: verse.ayah,
+                    verse_key: key,
+                    text: verseText
+                };
+            });
+            
+            return normalized;
+        }
+
+        // Load qpc-hafs.json
+        async function loadQuranText() {
+            try {
+                const response = await fetch('data/quran/qpc-hafs.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Response is not JSON');
+                }
+                const text = await response.text();
+                if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
+                    throw new Error('Received HTML instead of JSON');
+                }
+                const parsed = JSON.parse(text);
+                quranText = normalizeQpcData(parsed);
+                console.log('Quran text loaded successfully');
+            } catch (error) {
+                console.error('Failed to load qpc-hafs.json:', error);
+                quranText = null;
+            }
+        }
+
+        // Load qpc-hafs-tajweed.json
+        async function loadTajweedData() {
+            try {
+                const response = await fetch('data/quran/qpc-hafs-tajweed.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Response is not JSON');
+                }
+                const text = await response.text();
+                if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
+                    throw new Error('Received HTML instead of JSON');
+                }
+                tajweedData = JSON.parse(text);
+                console.log('Tajweed data loaded successfully');
+            } catch (error) {
+                console.warn('Failed to load qpc-hafs-tajweed.json:', error);
+                tajweedData = null;
+            }
+        }
+
+        // Get words for a verse from tajweed data
+        function getWordsForVerse(surahNum, ayahNum) {
+            if (!tajweedData) return null;
+            
+            const words = [];
+            let wordNum = 1;
+            
+            // Look for words in tajweed data: "surah:ayah:word"
+            while (true) {
+                const wordKey = `${surahNum}:${ayahNum}:${wordNum}`;
+                const word = tajweedData[wordKey];
+                if (!word) break;
+                words.push(word);
+                wordNum++;
+            }
+            
+            return words.length > 0 ? words : null;
+        }
+
+        // Get verse text with tajweed rules (processes HTML tags)
+        function getVerseTextWithTajweed(surahNum, ayahNum) {
+            const words = getWordsForVerse(surahNum, ayahNum);
+            if (!words || words.length === 0) return null;
+            
+            // Combine all words with spaces
+            const combinedText = words.map(w => w.text || '').join(' ');
+            
+            // Convert <rule class=className>content</rule> to <span class="className">content</span>
+            // Handle both quoted and unquoted class attributes
+            let result = combinedText
+                .replace(/<rule\s+class=["']?([^\s>"']+)["']?\s*>/gi, '<span class="$1">')
+                .replace(/<\/rule>/gi, '</span>');
+            
+            return result;
+        }
+
+        // Get verses for a page using QuranData.Page
+        function getVersesForPage(pageNumber) {
+            if (!quranText || !window.QuranData || !QuranData.Page || !QuranData.Page[pageNumber]) {
+                return [];
+            }
+            
+            const currentPageStart = QuranData.Page[pageNumber];
+            const nextPageStart = QuranData.Page[pageNumber + 1];
+            
+            if (!currentPageStart || currentPageStart.length < 2) {
+                return [];
+            }
+            
+            const startSurah = currentPageStart[0];
+            const startAyah = currentPageStart[1];
+            
+            let endSurah, endAyah;
+            if (nextPageStart && nextPageStart.length >= 2) {
+                endSurah = nextPageStart[0];
+                endAyah = nextPageStart[1] - 1;
+                
+                if (endAyah < 1) {
+                    endSurah = endSurah - 1;
+                    if (QuranData.Sura && QuranData.Sura[endSurah]) {
+                        endAyah = QuranData.Sura[endSurah][1];
+                    } else {
+                        endAyah = 1;
+                    }
+                }
+            } else {
+                endSurah = 114;
+                endAyah = 6;
+            }
+            
+            const verses = [];
+            let currentSurah = startSurah;
+            let currentAyah = startAyah;
+            
+            while (true) {
+                if (currentSurah > endSurah || (currentSurah === endSurah && currentAyah > endAyah)) {
+                    break;
+                }
+                
+                const verseKey = `${currentSurah}:${currentAyah}`;
+                const verse = quranText[verseKey];
+                if (verse) {
+                    verses.push(verse);
+                }
+                
+                currentAyah++;
+                
+                if (QuranData.Sura && QuranData.Sura[currentSurah]) {
+                    const maxAyahs = QuranData.Sura[currentSurah][1];
+                    if (currentAyah > maxAyahs) {
+                        currentSurah++;
+                        currentAyah = 1;
+                    }
+                } else {
+                    const nextVerseKey = `${currentSurah}:${currentAyah}`;
+                    if (!quranText[nextVerseKey]) {
+                        currentSurah++;
+                        currentAyah = 1;
+                    }
+                }
+                
+                if (currentSurah > 114) break;
+            }
+            
+            return verses;
+        }
+
+        function createCalendar() {
+            const readPages = JSON.parse(localStorage.getItem('readPages') || '[]');
+            const calendar = document.getElementById('calendar');
+            calendar.innerHTML = '';
+            
+            for (let i = 1; i <= 604; i++) {
+                const page = document.createElement('div');
+                page.className = `page-number ${readPages.includes(i) ? 'read-page' : ''}`;
+                page.textContent = i;
+                page.onclick = () => loadPage(i);
+                calendar.appendChild(page);
+            }
+        }
+
+        async function loadPage(pageNumber) {
+            try {
+                currentPage = pageNumber;
+                showSpinner();
+                
+                // Use page number directly (1.jpg, 2.jpg, etc.)
+                const imagePath = `hafs-wasat/${pageNumber}.jpg`;
+                
+                // Create image element
+                const content = `<img src="${imagePath}" alt="صفحة ${pageNumber}" class="page-svg" onerror="this.style.display='none'; alert('فشل تحميل الصفحة');">`;
+
+                document.getElementById('page-content').innerHTML = content;
+                document.getElementById('modal').style.display = 'flex';
+                document.body.classList.add('modal-open');
+                document.documentElement.classList.add('modal-open');
+                updateMarkButton();
+                hideSpinner();
+            } catch (error) {
+                alert('حدث خطأ أثناء تحميل الصفحة');
+                console.error(error);
+                hideSpinner();
+            }
+        }
+
+
+        function showSpinner() {
+            document.getElementById('spinner').style.display = 'block';
+        }
+
+        function hideSpinner() {
+            document.getElementById('spinner').style.display = 'none';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.body.classList.remove('modal-open');
+            document.documentElement.classList.remove('modal-open');
+        }
+
+        function togglePageMark() {
+            const readPages = JSON.parse(localStorage.getItem('readPages') || '[]');
+            const index = readPages.indexOf(currentPage);
+            
+            if (index === -1) {
+                readPages.push(currentPage);
+            } else {
+                readPages.splice(index, 1);
+            }
+            
+            localStorage.setItem('readPages', JSON.stringify(readPages));
+            createCalendar();
+            updateMarkButton();
+        }
+
+        function updateMarkButton() {
+            const readPages = JSON.parse(localStorage.getItem('readPages') || '[]');
+            const btn = document.getElementById('markReadHeaderBtn');
+            const isRead = readPages.includes(currentPage);
+            
+            if (btn) {
+                btn.textContent = isRead ? 'Unmark ✗' : 'Mark as Read ✓';
+                btn.classList.toggle('marked', isRead);
+            }
+        }
+
+        function resetAllPages() {
+            const readPages = JSON.parse(localStorage.getItem('readPages') || '[]');
+            
+            if (readPages.length === 0) {
+                alert('No pages are marked as read.');
+                return;
+            }
+            
+            if (confirm(`Are you sure you want to reset all ${readPages.length} marked pages?`)) {
+                localStorage.setItem('readPages', JSON.stringify([]));
+                createCalendar();
+                
+                // If modal is open, update the mark button
+                if (currentPage) {
+                    updateMarkButton();
+                }
+            }
+        }
+
+        function handleTouchStart(e) {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }
+
+        function handleTouchEnd(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }
+
+        function handleSwipe() {
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+            
+            // Minimum swipe distance (50px)
+            const minSwipeDistance = 50;
+            
+            // Check if horizontal swipe is greater than vertical (to avoid scrolling conflicts)
+            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+                if (deltaX > 0) {
+                    // Swipe right - go to next page
+                    navigateToNextPage();
+                } else {
+                    // Swipe left - go to previous page
+                    navigateToPreviousPage();
+                }
+            }
+        }
+
+        function navigateToNextPage() {
+            if (currentPage && currentPage < 604) {
+                loadPage(currentPage + 1);
+            }
+        }
+
+        function navigateToPreviousPage() {
+            if (currentPage && currentPage > 1) {
+                loadPage(currentPage - 1);
+            }
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                document.body.classList.remove('modal-open');
+                document.documentElement.classList.remove('modal-open');
+            }
+        }
+
+        // Initialize dark mode from localStorage
+        function initializeDarkMode() {
+            if (localStorage.getItem('night') === 'true') {
+                document.body.classList.add('dark');
+            } else {
+                document.body.classList.remove('dark');
+            }
+        }
+
+        // Initialize dark mode immediately (before page renders)
+        initializeDarkMode();
+
+        // Listen for storage changes (when settings are updated in another tab/window)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'night') {
+                initializeDarkMode();
+            }
+        });
+
+        window.onload = async () => {
+            // Load Quran text and tajweed data on page load
+            await Promise.all([
+                loadQuranText(),
+                loadTajweedData()
+            ]);
+            createCalendar();
+            // Re-check dark mode on load
+            initializeDarkMode();
+            
+            // Add touch event listeners for swipe navigation
+            const modalContent = document.querySelector('.modal-content');
+            if (modalContent) {
+                modalContent.addEventListener('touchstart', handleTouchStart, { passive: true });
+                modalContent.addEventListener('touchend', handleTouchEnd, { passive: true });
+            }
+        }
+    </script>
+</body>
+</html>

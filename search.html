@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Search</title>
+  <link rel="icon" type="image/jpeg" href="2.jpg">
+  <link rel="apple-touch-icon" href="2.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal: #8A9A5B;
+      --bg: #f8f8f8;
+      --text: #555;
+      --placeholder: #999;
+      --input-bg: #fff;
+    }
+
+    body.dark {
+      --bg: #121212;
+      --text: #ddd;
+      --placeholder: #888;
+      --input-bg: #1e1e1e;
+      --teal: #26a69a;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .navbar {
+      width: 100%;
+      background: var(--teal);
+      color: #fff;
+      text-align: center;
+      font-weight: 600;
+      font-size: 17px;
+      line-height: 44px;
+      height: 44px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .navbar-back {
+      position: absolute;
+      left: 20px;
+      background: #fff;
+      border: 2px solid var(--teal);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 0;
+      transition: all 0.3s ease;
+      padding: 0;
+    }
+
+    .navbar-back svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--teal);
+      transition: stroke 0.3s ease;
+    }
+
+    .navbar-back:hover {
+      background: var(--teal);
+    }
+
+    .navbar-back:hover svg {
+      stroke: white;
+    }
+
+    .search-container {
+      margin-top: 40px;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    input[type="search"] {
+      width: 100%;
+      padding: 10px 15px 10px 40px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      background: var(--input-bg);
+      font-size: 16px;
+      color: var(--text);
+      outline: none;
+      transition: all 0.2s;
+      direction: rtl;
+      text-align: right;
+    }
+
+    input[type="search"]::placeholder {
+      color: var(--placeholder);
+      text-align: right;
+    }
+
+    input[type="search"]:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 4px rgba(0, 137, 123, 0.3);
+    }
+
+    .icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--placeholder);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .hint {
+      text-align: center;
+      margin-top: 25px;
+      color: var(--placeholder);
+      font-size: 15px;
+    }
+
+    .suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--input-bg);
+      border: 1px solid #ddd;
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      max-height: 400px;
+      overflow-y: auto;
+      z-index: 1000;
+      margin-top: -1px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: none;
+    }
+
+    body.dark .suggestions {
+      border-color: #333;
+      background: var(--input-bg);
+    }
+
+    .suggestion-item {
+      padding: 12px 15px;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      transition: background 0.2s;
+      direction: rtl;
+      text-align: right;
+    }
+
+    body.dark .suggestion-item {
+      border-bottom-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .suggestion-item:hover,
+    .suggestion-item.selected {
+      background: rgba(138, 154, 91, 0.1);
+    }
+
+    body.dark .suggestion-item:hover,
+    body.dark .suggestion-item.selected {
+      background: rgba(38, 166, 154, 0.2);
+    }
+
+    .suggestion-item:last-child {
+      border-bottom: none;
+    }
+
+    .suggestion-ayah-text {
+      font-family: 'UthmanicHafs_v2-0', 'Amiri', 'Noto Naskh Arabic', serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .suggestion-ayah-ref {
+      font-size: 13px;
+      color: var(--placeholder);
+      font-weight: 500;
+    }
+
+    .results {
+      margin-top: 30px;
+      width: 90%;
+      max-width: 600px;
+    }
+
+    .result-item {
+      padding: 15px 0;
+      cursor: pointer;
+      transition: background 0.2s;
+      border-bottom: 1px solid #e0e0e0;
+      direction: rtl;
+      text-align: right;
+    }
+
+    body.dark .result-item {
+      border-bottom-color: #333;
+    }
+
+    .result-item:last-child {
+      border-bottom: none;
+    }
+
+    .result-item:hover {
+      background: rgba(0, 0, 0, 0.02);
+    }
+
+    body.dark .result-item:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .result-text {
+      color: var(--text);
+      font-size: 18px;
+      line-height: 1.8;
+      font-family: 'UthmanicHafs_v2-0', 'Amiri', 'Noto Naskh Arabic', serif;
+      margin-bottom: 0;
+    }
+
+    .highlight {
+      color: #2196F3 !important;
+      background-color: transparent !important;
+      padding: 0;
+    }
+
+    .no-results {
+      text-align: center;
+      color: var(--placeholder);
+      margin-top: 40px;
+      font-size: 16px;
+    }
+
+    .label-arabic {
+      font-family: 'Amiri', 'Noto Naskh Arabic', 'Arial', 'Tahoma', sans-serif;
+      font-weight: 500;
+      margin-right: 6px;
+      direction: rtl;
+      display: inline-block;
+    }
+
+    @media (max-width: 768px) {
+      .navbar-back {
+        left: 15px;
+        width: 36px;
+        height: 36px;
+      }
+
+      .navbar-back svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  </style>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+
+<body>
+  <div class="navbar">
+    <button class="navbar-back" onclick="window.location.href='index.html'" title="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7" />
+      </svg>
+    </button>
+    Search <span class="label-arabic">(بحث)</span>
+  </div>
+
+  <div class="search-container">
+    <div class="search-box">
+      <input type="search" placeholder="Enter search word (أدخل كلمة البحث)" id="searchInput" />
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+          <path fill="none" d="M0 0h24v24H0V0z" />
+          <path
+            d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+        </svg>
+      </span>
+      <div class="suggestions" id="suggestions"></div>
+    </div>
+  </div>
+
+  <div class="results" id="results"></div>
+
+  <script src="data/quran/quran-data.js"></script>
+  <script>
+    let quranData = null;
+    let imlaeiData = null;
+
+    // Normalize Arabic text for search (remove diacritics/tatweel, unify common forms)
+    function normalizeArabic(text) {
+      if (!text) return '';
+      return text
+        .replace(/[\u0640\u064B-\u065F\u0670\u06D6-\u06ED]/g, '') // tatweel + tashkeel
+        .replace(/[أإآٱ]/g, 'ا') // alef variants to bare alef
+        .replace(/ى/g, 'ي')     // alif maqsura to ya
+        .replace(/يٰ/g, 'ي')    // ya with dagger alef
+        .replace(/ة/g, 'ه')     // taa marbuta to ha (common search expectation)
+        .trim();
+    }
+
+    function normalizeQpcData(rawData) {
+      if (!rawData || Array.isArray(rawData)) return rawData;
+      const firstKey = Object.keys(rawData)[0];
+      const sample = firstKey ? rawData[firstKey] : null;
+      const looksWordLevel = sample && (sample.word || (sample.location && sample.location.split(':').length === 3));
+      if (!looksWordLevel) return rawData;
+
+      const verseMap = {};
+      for (const key in rawData) {
+        if (!Object.prototype.hasOwnProperty.call(rawData, key)) continue;
+        const entry = rawData[key] || {};
+        const locParts = (entry.location && typeof entry.location === 'string') ? entry.location.split(':') : [];
+        const surahNum = parseInt(entry.surah || locParts[0], 10);
+        const ayahNum = parseInt(entry.ayah || locParts[1], 10);
+        const wordNum = parseInt(entry.word || locParts[2] || '0', 10);
+        if (!surahNum || !ayahNum) continue;
+        const verseKey = `${surahNum}:${ayahNum}`;
+        if (!verseMap[verseKey]) {
+          verseMap[verseKey] = { surah: surahNum, ayah: ayahNum, words: [] };
+        }
+        verseMap[verseKey].words.push({ num: isNaN(wordNum) ? 0 : wordNum, text: entry.text || '' });
+      }
+      const normalized = {};
+      Object.keys(verseMap).forEach(key => {
+        const verse = verseMap[key];
+        verse.words.sort((a, b) => a.num - b.num);
+        const verseText = verse.words.map(w => w.text).join(' ').trim();
+        normalized[key] = { surah: verse.surah, ayah: verse.ayah, verse_key: key, text: verseText };
+      });
+      return normalized;
+    }
+
+    // Load Quran text data
+    async function loadQuranData() {
+      try {
+        const response = await fetch('data/quran/qpc-v4.json');
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        const text = await response.text();
+        if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
+          throw new Error('Received HTML instead of JSON');
+        }
+        const parsed = JSON.parse(text);
+        quranData = normalizeQpcData(parsed);
+        console.log('Quran data loaded successfully');
+      } catch (error) {
+        console.error('Failed to load qpc-v4.json:', error);
+        alert('Failed to load Quran data. Please refresh the page.');
+      }
+    }
+
+    // Load imlaei script (ayah-by-ayah) for searchable plain Arabic text
+    async function loadImlaeiData() {
+      try {
+        const response = await fetch('data/quran/imlaei-script-ayah-by-ayah.json');
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        const text = await response.text();
+        if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
+          throw new Error('Received HTML instead of JSON');
+        }
+        imlaeiData = JSON.parse(text);
+        console.log('Imlaei data loaded successfully');
+      } catch (error) {
+        console.warn('Failed to load imlaei-script-ayah-by-ayah.json:', error);
+        imlaeiData = null;
+      }
+    }
+
+    // Get surah name (without سورة prefix)
+    function getSurahName(surahNum) {
+      if (window.QuranData && QuranData.Sura && QuranData.Sura[surahNum] && Array.isArray(QuranData.Sura[surahNum]) && QuranData.Sura[surahNum][4]) {
+        let name = QuranData.Sura[surahNum][4];
+        // Return name without "سورة" prefix for reference format
+        if (typeof name === 'string' && name.startsWith('سورة')) {
+          return name.replace(/^سورة\s+/, '');
+        }
+        return name;
+      }
+      return `${surahNum}`;
+    }
+
+    // Convert to Eastern Arabic numerals
+    function toEasternArabic(num) {
+      const easternArabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+      return num.toString().split('').map(digit => easternArabic[parseInt(digit)]).join('');
+    }
+
+    // Search function
+    function searchQuran(query) {
+      const data = imlaeiData || quranData;
+      if (!data || !query || query.trim().length === 0) {
+        return [];
+      }
+
+      const searchTerm = query.trim();
+      const normQuery = normalizeArabic(searchTerm);
+      const results = [];
+
+      // Iterate through all verses
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          const verse = data[key];
+          const text = verse.text || '';
+          const normText = normalizeArabic(text);
+
+          // Search in Arabic text (case-insensitive)
+          if (text.includes(searchTerm) || normText.includes(normQuery)) {
+            // Parse surah:ayah from key
+            const [surah, ayah] = key.split(':').map(Number);
+
+            // Get page number using QuranData.Page
+            let page = 1;
+            if (window.QuranData && QuranData.Page) {
+              // Find the page that contains this ayah
+              // A page contains an ayah if:
+              // - The page starts at or before the ayah (same surah, ayah >= page start ayah)
+              // - The next page starts after the ayah (different surah or same surah with higher ayah)
+              for (let p = 1; p <= 604; p++) {
+                if (QuranData.Page[p] && Array.isArray(QuranData.Page[p]) && QuranData.Page[p].length >= 2) {
+                  const pageStart = QuranData.Page[p];
+                  const pageSurah = pageStart[0];
+                  const pageAyah = pageStart[1];
+
+                  // Check if this page starts at or before our target ayah
+                  if (pageSurah === surah && pageAyah <= ayah) {
+                    // Check the next page to see if it's after our target
+                    const nextPageStart = QuranData.Page[p + 1];
+                    if (!nextPageStart || !Array.isArray(nextPageStart) || nextPageStart.length < 2) {
+                      // Last page or invalid next page, this must be the page
+                      page = p;
+                      break;
+                    }
+
+                    const nextSurah = nextPageStart[0];
+                    const nextAyah = nextPageStart[1];
+
+                    // If next page is in a different surah (higher) or same surah with higher ayah
+                    if (nextSurah > surah || (nextSurah === surah && nextAyah > ayah)) {
+                      page = p;
+                      break;
+                    }
+                  } else if (pageSurah > surah) {
+                    // We've passed the surah, go back one page
+                    if (p > 1) {
+                      page = p - 1;
+                    }
+                    break;
+                  }
+                }
+              }
+            }
+
+            results.push({
+              surah: surah,
+              ayah: ayah,
+              text: text,
+              page: page,
+              key: key
+            });
+          }
+        }
+      }
+
+      return results;
+    }
+
+    // Highlight search term in text (handles Arabic with/without diacritics)
+    function highlightText(text, searchTerm) {
+      if (!searchTerm || searchTerm.trim().length === 0) {
+        return escapeHtml(text);
+      }
+
+      // Escape HTML first
+      const escapedText = escapeHtml(text);
+      const escapedSearchTerm = escapeHtml(searchTerm);
+
+      // Try exact match first
+      const regexPattern = escapedSearchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      let regex = new RegExp(`(${regexPattern})`, 'g');
+      let highlighted = escapedText.replace(regex, '<span class="highlight">$1</span>');
+
+      // If exact match found, return it
+      if (highlighted.includes('highlight')) {
+        return highlighted;
+      }
+
+      // Otherwise, use a smarter approach: build normalized text and map positions
+      const normSearchTerm = normalizeArabic(searchTerm);
+      const normText = normalizeArabic(text);
+
+      if (!normText.includes(normSearchTerm)) {
+        return escapedText; // No match found
+      }
+
+      // Build a mapping: for each position in normalized text, find the corresponding character range in original text
+      const mapping = [];
+      let normIdx = 0;
+      const origChars = Array.from(text);
+
+      for (let origIdx = 0; origIdx < origChars.length; origIdx++) {
+        const origChar = origChars[origIdx];
+        const charNorm = normalizeArabic(origChar);
+
+        if (charNorm.length > 0) {
+          // This character contributes to normalized text
+          for (let i = 0; i < charNorm.length; i++) {
+            mapping[normIdx + i] = origIdx;
+          }
+          normIdx += charNorm.length;
+        }
+      }
+
+      // Find all matches in normalized text
+      const matches = [];
+      let startIdx = 0;
+      while (true) {
+        const idx = normText.indexOf(normSearchTerm, startIdx);
+        if (idx === -1) break;
+        matches.push({ start: idx, end: idx + normSearchTerm.length });
+        startIdx = idx + 1;
+      }
+
+      // Convert normalized positions to original text positions
+      const ranges = [];
+      for (const match of matches) {
+        const startOrig = mapping[match.start];
+        const endOrig = mapping[match.end - 1] !== undefined ? mapping[match.end - 1] + 1 : text.length;
+
+        if (startOrig !== undefined && endOrig > startOrig) {
+          ranges.push({ start: startOrig, end: endOrig });
+        }
+      }
+
+      // Apply highlights (work backwards to preserve indices)
+      ranges.sort((a, b) => b.start - a.start);
+      let result = escapedText;
+      for (const range of ranges) {
+        const before = result.substring(0, range.start);
+        const match = result.substring(range.start, range.end);
+        const after = result.substring(range.end);
+        result = before + '<span class="highlight">' + match + '</span>' + after;
+      }
+
+      return result;
+    }
+
+    // Escape HTML
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Display results
+    function displayResults(results, searchTerm) {
+      const resultsDiv = document.getElementById('results');
+
+      if (results.length === 0) {
+        resultsDiv.innerHTML = '<div class="no-results">No results found <span class="label-arabic">(لم يتم العثور على نتائج)</span></div>';
+        return;
+      }
+
+      resultsDiv.innerHTML = results.map((result, index) => {
+        const surahName = getSurahName(result.surah);
+        const ayahNum = toEasternArabic(result.ayah);
+
+        // Format: verse text (سورة: آية)
+        const verseContent = escapeHtml(result.text) + ` (${surahName}: ${ayahNum})`;
+
+        return `
+        <div class="result-item" data-surah="${result.surah}" data-ayah="${result.ayah}" data-page="${result.page}">
+          <div class="result-text">${verseContent}</div>
+        </div>
+      `;
+      }).join('');
+
+      // Add click handlers
+      resultsDiv.querySelectorAll('.result-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const surah = parseInt(item.dataset.surah);
+          const ayah = parseInt(item.dataset.ayah);
+          const page = parseInt(item.dataset.page);
+
+          // Navigate to index.html with page, surah, and ayah parameters
+          // If page is 1 (default), still include it but index.html will handle finding the correct page
+          const params = new URLSearchParams();
+          if (page && page >= 1 && page <= 604) {
+            params.set('page', page);
+          }
+          params.set('surah', surah);
+          params.set('ayah', ayah);
+
+          window.location.href = `index.html?${params.toString()}`;
+        });
+      });
+    }
+
+    // Suggestions functionality
+    let selectedSuggestionIndex = -1;
+    const suggestionsDiv = document.getElementById('suggestions');
+
+    // Get ayah suggestions based on query
+    function getAyahSuggestions(query) {
+      const data = imlaeiData || quranData;
+      if (!data || !query || query.trim().length < 1) return [];
+
+      const searchTerm = query.trim();
+      const normQuery = normalizeArabic(searchTerm);
+      const suggestions = [];
+      let count = 0;
+      const maxSuggestions = 8;
+
+      // Iterate through all verses to find matches
+      for (const key in data) {
+        if (data.hasOwnProperty(key) && count < maxSuggestions) {
+          const verse = data[key];
+          const text = verse.text || '';
+          const normText = normalizeArabic(text);
+
+          // Check if this verse matches
+          if (text.includes(searchTerm) || normText.includes(normQuery)) {
+            const [surah, ayah] = key.split(':').map(Number);
+            const surahName = getSurahName(surah);
+            const ayahNum = toEasternArabic(ayah);
+            
+            // Get page number
+            let page = 1;
+            if (window.QuranData && QuranData.Page) {
+              for (let p = 1; p <= 604; p++) {
+                if (QuranData.Page[p] && Array.isArray(QuranData.Page[p]) && QuranData.Page[p].length >= 2) {
+                  const pageStart = QuranData.Page[p];
+                  const pageSurah = pageStart[0];
+                  const pageAyah = pageStart[1];
+
+                  if (pageSurah === surah && pageAyah <= ayah) {
+                    const nextPageStart = QuranData.Page[p + 1];
+                    if (!nextPageStart || !Array.isArray(nextPageStart) || nextPageStart.length < 2) {
+                      page = p;
+                      break;
+                    }
+
+                    const nextSurah = nextPageStart[0];
+                    const nextAyah = nextPageStart[1];
+
+                    if (nextSurah > surah || (nextSurah === surah && nextAyah > ayah)) {
+                      page = p;
+                      break;
+                    }
+                  } else if (pageSurah > surah) {
+                    if (p > 1) {
+                      page = p - 1;
+                    }
+                    break;
+                  }
+                }
+              }
+            }
+
+            // Truncate text if too long
+            let displayText = text;
+            if (displayText.length > 80) {
+              displayText = displayText.substring(0, 80) + '...';
+            }
+
+            suggestions.push({
+              surah: surah,
+              ayah: ayah,
+              page: page,
+              text: displayText,
+              fullText: text,
+              surahName: surahName,
+              ayahNum: ayahNum,
+              key: key
+            });
+            count++;
+          }
+        }
+      }
+
+      return suggestions;
+    }
+
+    // Display ayah suggestions
+    function showSuggestions(query) {
+      const suggestions = getAyahSuggestions(query);
+      suggestionsDiv.innerHTML = '';
+      selectedSuggestionIndex = -1;
+      
+      if (suggestions.length === 0) {
+        suggestionsDiv.style.display = 'none';
+        return;
+      }
+      
+      suggestions.forEach((suggestion, index) => {
+        const item = document.createElement('div');
+        item.className = 'suggestion-item';
+        item.innerHTML = `
+          <div class="suggestion-ayah-text">${escapeHtml(suggestion.text)}</div>
+          <div class="suggestion-ayah-ref">${suggestion.surahName}: ${suggestion.ayahNum}</div>
+        `;
+        item.addEventListener('click', () => {
+          // Navigate to the ayah
+          const params = new URLSearchParams();
+          if (suggestion.page && suggestion.page >= 1 && suggestion.page <= 604) {
+            params.set('page', suggestion.page);
+          }
+          params.set('surah', suggestion.surah);
+          params.set('ayah', suggestion.ayah);
+          window.location.href = `index.html?${params.toString()}`;
+        });
+        suggestionsDiv.appendChild(item);
+      });
+      
+      suggestionsDiv.style.display = 'block';
+    }
+
+    // Hide suggestions
+    function hideSuggestions() {
+      suggestionsDiv.style.display = 'none';
+      selectedSuggestionIndex = -1;
+    }
+
+    // Escape HTML helper
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Initialize
+    const input = document.getElementById('searchInput');
+
+    // Input event for suggestions
+    input.addEventListener('input', async e => {
+      const query = input.value.trim();
+      
+      if (!quranData || !imlaeiData) {
+        await loadQuranData();
+        await loadImlaeiData();
+      }
+      
+      if (query.length >= 1) {
+        showSuggestions(query);
+      } else {
+        hideSuggestions();
+      }
+    });
+
+    // Keyboard navigation for suggestions
+    input.addEventListener('keydown', async e => {
+      const suggestions = suggestionsDiv.querySelectorAll('.suggestion-item');
+      
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (suggestions.length > 0) {
+          selectedSuggestionIndex = Math.min(selectedSuggestionIndex + 1, suggestions.length - 1);
+          suggestions.forEach((item, index) => {
+            item.classList.toggle('selected', index === selectedSuggestionIndex);
+          });
+          // Scroll into view
+          if (selectedSuggestionIndex >= 0) {
+            suggestions[selectedSuggestionIndex].scrollIntoView({ block: 'nearest' });
+          }
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (suggestions.length > 0) {
+          selectedSuggestionIndex = Math.max(selectedSuggestionIndex - 1, -1);
+          suggestions.forEach((item, index) => {
+            item.classList.toggle('selected', index === selectedSuggestionIndex);
+          });
+          // Scroll into view
+          if (selectedSuggestionIndex >= 0) {
+            suggestions[selectedSuggestionIndex].scrollIntoView({ block: 'nearest' });
+          }
+        }
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (selectedSuggestionIndex >= 0 && suggestions[selectedSuggestionIndex]) {
+          // Click the selected suggestion
+          suggestions[selectedSuggestionIndex].click();
+        } else {
+          // Perform normal search
+          const query = input.value.trim();
+          if (query.length === 0) {
+            document.getElementById('results').innerHTML = '';
+            return;
+          }
+
+          if (!quranData) await loadQuranData();
+          if (!imlaeiData) await loadImlaeiData();
+
+          const results = searchQuran(query);
+          displayResults(results, query);
+          hideSuggestions();
+        }
+      } else if (e.key === 'Escape') {
+        hideSuggestions();
+      }
+    });
+
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.search-box')) {
+        hideSuggestions();
+      }
+    });
+
+    // Initialize dark mode from localStorage
+    if (localStorage.getItem('night') === 'true') {
+      document.body.classList.add('dark');
+    }
+
+    // Load data on page load
+    loadQuranData();
+    loadImlaeiData();
+  </script>
+</body>
+
+</html>

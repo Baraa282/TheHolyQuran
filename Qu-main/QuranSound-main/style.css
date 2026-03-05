@@ -1,0 +1,451 @@
+/* Font Family
+================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap");
+
+
+/* Global Styles
+================================================== */
+
+html,body {
+-webkit-font-smoothing:antialiased;
+-webkit-text-size-adjust:100%;
+background-color:#CFE1B9;
+color:#1F1F1F;
+font-size:1rem;
+font-family:"Source Sans Pro", arial, sans-serif;
+font-weight:400;
+letter-spacing:.025rem;
+line-height:1.618;
+padding:1rem 0;
+}
+
+*,::before,::after {
+box-sizing:border-box;
+}
+
+* {
+-webkit-tap-highlight-color:rgba(0, 0, 0, 0);
+-webkit-tap-highlight-color:transparent;
+touch-action:manipulation;
+}
+
+
+/* Setup
+================================================== */
+
+.back-button {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border: 2px solid #8A9A5B;
+    border-radius: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    padding: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.back-button:hover {
+    background: #8A9A5B;
+}
+
+.back-button svg {
+    width: 20px;
+    height: 20px;
+    stroke: #8A9A5B;
+    transition: stroke 0.3s ease;
+}
+
+.back-button:hover svg {
+    stroke: white;
+}
+
+.container { position:relative; margin:0 auto; max-width:800px; width:100%; }
+.column { width:inherit; }
+
+
+/* Typography / Links
+================================================== */
+
+p { color:#1F1F1F; display:block; font-size:.9rem; font-weight:400; margin:0 0 2px; }
+
+a,a:visited { color:#8cc3e6; outline:0; text-decoration:underline; }
+a:hover,a:focus { color:#bbdef5; }
+p a,p a:visited { line-height:inherit; }
+
+
+/* Misc.
+================================================== */
+
+.add-bottom { margin-bottom:2rem !important; }
+.left { float:left; }
+.right { float:right; }
+.center { text-align:center; }
+.hidden { display:none; }
+
+.no-support {
+margin:2rem auto;
+text-align:center;
+width:90%;
+}
+
+
+/* Audio Player Styles
+================================================== */
+
+audio {
+display:none;
+}
+
+#audiowrap,
+#plwrap {
+margin:0 auto;
+position:relative;
+}
+
+.search-bar-container {
+position:sticky;
+top:0;
+background-color:#CFE1B9;
+padding:12px 0;
+margin-bottom:8px;
+z-index:100;
+}
+
+#searchBar {
+position:relative;
+display:flex;
+align-items:center;
+}
+
+#surahSearch {
+width:100%;
+padding:10px 40px 10px 40px;
+font-size:0.95rem;
+border:1px solid rgba(0, 0, 0, 0.12);
+border-radius:8px;
+background-color:#fff;
+color:#1F1F1F;
+outline:none;
+transition:all 0.2s ease;
+font-family:"Source Sans Pro", arial, sans-serif;
+box-shadow:0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+#surahSearch:focus {
+border-color:rgba(138, 154, 91, 0.5);
+box-shadow:0 2px 4px rgba(138, 154, 91, 0.15);
+}
+
+#surahSearch::placeholder {
+color:rgba(31, 31, 31, 0.5);
+}
+
+.search-bar-container .search-icon {
+position:absolute;
+left:14px;
+color:rgba(31, 31, 31, 0.4);
+font-size:0.9rem;
+pointer-events:none;
+z-index:1;
+}
+
+.search-bar-container .clear-icon {
+position:absolute;
+right:14px;
+color:rgba(31, 31, 31, 0.4);
+font-size:0.9rem;
+cursor:pointer;
+z-index:2;
+transition:all 0.2s ease;
+padding:4px;
+border-radius:50%;
+}
+
+.search-bar-container .clear-icon:hover {
+color:#1F1F1F;
+background-color:rgba(0, 0, 0, 0.05);
+}
+
+#tracks {
+font-size:0;
+position:relative;
+text-align:center;
+}
+
+#nowPlay {
+display:block;
+font-size:0;
+}
+
+#nowPlay span {
+display:inline-block;
+font-size:1.05rem;
+vertical-align:top;
+}
+
+#nowPlay span#npAction {
+padding:21px;
+width:30%;
+}
+
+#nowPlay span#npTitle {
+padding:21px;
+text-align:right;
+width:70%;
+}
+
+#nowPlay span#npTitle .arabic-name {
+direction:rtl;
+display:inline-block;
+font-family:"Amiri", "Noto Sans Arabic", "Arial Unicode MS", sans-serif;
+margin-left:8px;
+unicode-bidi:embed;
+}
+
+#plList li {
+cursor:pointer;
+display:block;
+margin:0;
+padding:21px 0;
+}
+
+#plList li.hidden {
+display:none;
+}
+
+#plList li:hover {
+background-color:rgba(0, 0, 0, .1);
+}
+
+.plItem {
+position:relative;
+}
+
+.plTitle {
+left:50px;
+overflow:hidden;
+position:absolute;
+right:65px;
+text-overflow:ellipsis;
+top:0;
+white-space:nowrap;
+}
+
+.arabic-name {
+direction:rtl;
+display:inline-block;
+font-family:"Amiri", "Noto Sans Arabic", "Arial Unicode MS", sans-serif;
+margin-left:8px;
+unicode-bidi:embed;
+}
+
+.plNum {
+padding-left:21px;
+width:25px;
+}
+
+.plLength {
+padding-left:21px;
+position:absolute;
+right:21px;
+top:0;
+}
+
+.plSel,
+.plSel:hover {
+background-color:rgba(0, 0, 0, .1);
+color:#1F1F1F;
+cursor:default !important;
+}
+
+#tracks a {
+border-radius:3px;
+color:#1F1F1F;
+cursor:pointer;
+display:inline-block;
+font-size:2.3rem;
+height:40px;
+line-height:.2;
+margin:0 5px 30px;
+padding:12px;
+text-decoration:none;
+transition:background .3s ease;
+}
+
+#tracks a:hover,
+#tracks a:active {
+background-color:rgba(0, 0, 0, .1);
+color:#1F1F1F;
+}
+
+#tracks a::-moz-focus-inner {
+border:0;
+padding:0;
+}
+
+#reciterContainer {
+position:relative;
+width:100%;
+margin-bottom:10px;
+}
+
+#reciterName {
+display:block;
+text-align:center;
+font-size:0.95rem;
+color:#1F1F1F;
+font-weight:500;
+width:100%;
+padding:8px 0;
+cursor:pointer;
+border-radius:4px;
+transition:background-color 0.3s ease;
+}
+
+#reciterName:hover {
+background-color:rgba(0, 0, 0, 0.05);
+}
+
+.reciter-select {
+position:relative;
+}
+
+.dropdown-arrow {
+font-size:1rem;
+margin-left:5px;
+color:#1F1F1F;
+font-weight:bold;
+transition:transform 0.3s ease;
+}
+
+.reciter-dropdown {
+display:none;
+position:absolute;
+top:100%;
+left:50%;
+transform:translateX(-50%);
+background-color:#fff;
+border:1px solid rgba(0, 0, 0, 0.1);
+border-radius:4px;
+box-shadow:0 4px 6px rgba(0, 0, 0, 0.1);
+min-width:250px;
+max-height:300px;
+overflow-y:auto;
+z-index:1000;
+margin-top:5px;
+}
+
+.reciter-dropdown.show {
+display:block;
+}
+
+.reciter-option {
+padding:12px 20px;
+color:#1F1F1F;
+cursor:pointer;
+font-size:0.9rem;
+transition:background-color 0.2s ease;
+border-bottom:1px solid rgba(0, 0, 0, 0.05);
+}
+
+.reciter-option:last-child {
+border-bottom:none;
+}
+
+.reciter-option:hover {
+background-color:rgba(0, 0, 0, 0.05);
+}
+
+.reciter-option.active {
+    background-color:#CFE1B9;
+    font-weight:600;
+}
+
+.reciter-arabic {
+    font-family: 'Amiri', 'Noto Naskh Arabic', 'Arial', 'Tahoma', sans-serif;
+    direction: rtl;
+    display: inline-block;
+    font-weight: 500;
+}
+
+.reciter-option {
+    direction: rtl;
+    text-align: right;
+}
+
+
+/* Plyr Overrides
+================================================== */
+
+.plyr--audio .plyr__controls {
+background-color:transparent;
+border:none;
+color:#1F1F1F;
+font-family:"Source Sans Pro", arial, sans-serif;
+padding:20px 20px 20px 13px;
+width:100%;
+}
+
+a.plyr__controls__item.plyr__control:hover,
+.plyr--audio .plyr__controls button:hover,
+.plyr--audio .plyr__controls button.tab-focus:focus,
+.plyr__play-large {
+background-color:rgba(0, 0, 0, .1);
+}
+
+.plyr__progress--played,
+.plyr__volume--display {
+color:rgba(0, 0, 0, .1);
+}
+
+.plyr--audio .plyr__progress--buffer,
+.plyr--audio .plyr__volume--display {
+background-color:rgba(0, 0, 0, .1);
+}
+
+.plyr--audio .plyr__progress--buffer {
+color:rgba(0, 0, 0, .1);
+}
+
+.plyr__controls .plyr__controls__item.plyr__time {
+font-size:14px;
+margin-left:7px;
+}
+
+
+/* Media Queries
+================================================== */
+
+@media only screen and (max-width:600px) {
+    .search-bar-container {
+        padding:10px 0;
+        margin-bottom:6px;
+    }
+    
+    #surahSearch {
+        padding:9px 36px 9px 36px;
+        font-size:0.9rem;
+    }
+    
+    .search-bar-container .search-icon {
+        left:12px;
+        font-size:0.85rem;
+    }
+    
+    .search-bar-container .clear-icon {
+        right:12px;
+        font-size:0.85rem;
+    }
+    
+    #nowPlay span#npAction { display:none; }
+    #nowPlay span#npTitle { display:block; text-align:center; width:100%; }
+}

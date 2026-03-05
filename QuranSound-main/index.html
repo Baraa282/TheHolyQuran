@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Sound Player</title>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='../index.html'" title="Back">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+    </button>
+    <div class="container">
+        <div class="column add-bottom">
+            <div id="mainwrap">
+                <div id="nowPlay">
+                    <div id="reciterContainer">
+                        <div id="reciterName" class="reciter-select">
+                            <span class="reciter-arabic">مشاري راشد العفاسي</span> <span class="dropdown-arrow">↓</span>
+                        </div>
+                        <div id="reciterDropdown" class="reciter-dropdown">
+                            <div class="reciter-option" data-reciter="afs" data-name="مشاري راشد العفاسي">مشاري راشد العفاسي</div>
+                            <div class="reciter-option" data-reciter="saad_al_ghamdi" data-name="سعد الغامدي">سعد الغامدي</div>
+                            <div class="reciter-option" data-reciter="abu_bakr_al_shatri" data-name="أبو بكر الشاطري">أبو بكر الشاطري</div>
+                            <div class="reciter-option" data-reciter="mohammed_ayyub" data-name="محمد أيوب">محمد أيوب</div>
+                            <div class="reciter-option" data-reciter="mohammed_siddiq_al_minshawi" data-name="محمد صديق المنشاوي">محمد صديق المنشاوي</div>
+                            <div class="reciter-option" data-reciter="mahmoud_khalil_al_hussary" data-name="محمود خليل الحصري">محمود خليل الحصري</div>
+                            <div class="reciter-option" data-reciter="mohammed_jibreel" data-name="محمد جبريل">محمد جبريل</div>
+                            <div class="reciter-option" data-reciter="saud_al_shuraim" data-name="سعود الشريم">سعود الشريم</div>
+                            <div class="reciter-option" data-reciter="mahmoud_ali_albanna" data-name="محمود علي البنا">محمود علي البنا</div>
+                            <div class="reciter-option" data-reciter="abdur_rahman_as_sudais" data-name="عبد الرحمن السديس">عبد الرحمن السديس</div>
+                        </div>
+                    </div>
+                    <span id="npAction">Paused...</span><span id="npTitle"></span>
+                </div>
+                <div id="audiowrap">
+                    <div id="audio0">
+                        <audio id="audio1" preload controls>Your browser does not support HTML5 Audio! 😢</audio>
+                    </div>
+                    <div id="tracks">
+                        <a id="btnPrev">&larr;</a><a id="btnNext">&rarr;</a>
+                    </div>
+                </div>
+                <div id="plwrap">
+                    <div id="searchBar" class="search-bar-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="surahSearch" placeholder="" autocomplete="off">
+                        <i class="fas fa-times clear-icon" id="clearSearch" style="display:none;"></i>
+                    </div>
+                    <ul id="plList"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="column add-bottom center">
+            <p>Quran Sound Player - 114 Surahs</p>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

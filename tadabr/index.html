@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تدبر آية</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Amiri+Quran&family=Readex+Pro:wght@300;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --paper-bg: #faf8f4;
+      --paper-edge: #f0ebe3;
+      --highlight: #f0f7f4;
+      --highlight-border: #7ba898;
+      --text-main: #1c1c1c;
+      --text-soft: #4a4a4a;
+      --text-muted: #6b6b6b;
+      --accent: #5a8f7a;
+      --accent-soft: rgba(90, 143, 122, 0.15);
+      --gold: #b8860b;
+      --gold-soft: rgba(184, 134, 11, 0.12);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md: 0 12px 40px rgba(0,0,0,0.07);
+      --shadow-paper: 0 25px 60px rgba(0,0,0,0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(90, 143, 122, 0.08), transparent),
+        linear-gradient(160deg, #e8efe8 0%, #f2f0eb 50%, #ebe8e4 100%);
+      font-family: "Amiri", serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 20px 48px;
+      position: relative;
+    }
+
+    .navbar-back {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(250, 248, 244, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0,0,0,0.10);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border-radius: 8px;
+      z-index: 10;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .navbar-back svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-main);
+    }
+
+    .navbar-back:hover {
+      background: rgba(90, 143, 122, 0.10);
+      border-color: rgba(90, 143, 122, 0.35);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 0);
+      background-size: 24px 24px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .site-title {
+      font-family: "Readex Pro", sans-serif;
+      font-weight: 300;
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    .paper {
+      background: var(--paper-bg);
+      max-width: 720px;
+      width: 100%;
+      padding: 48px 44px 56px;
+      border-radius: 20px;
+      box-shadow:
+        var(--shadow-paper),
+        inset 0 0 0 1px rgba(0,0,0,0.04),
+        inset 0 1px 0 rgba(255,255,255,0.6);
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      overflow: hidden;
+    }
+
+    .paper::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--gold), var(--accent), transparent);
+      opacity: 0.4;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .block {
+      animation: blockIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      opacity: 0;
+    }
+
+    .block:not(:last-child) {
+      margin-bottom: 18px;
+    }
+
+    @keyframes blockIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .ayah {
+      font-family: "Amiri Quran", "Amiri", serif;
+      background: linear-gradient(135deg, var(--highlight) 0%, #e8f2ee 100%);
+      border-right: 4px solid var(--highlight-border);
+      padding: 24px 28px;
+      border-radius: 14px;
+      font-size: 1.75rem;
+      line-height: 2;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 28px;
+      box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.5);
+      letter-spacing: 0.02em;
+    }
+
+    /* Make the ayah clickable (button reset) */
+    button.ayah {
+      width: 100%;
+      text-align: right;
+      appearance: none;
+      border: 0;
+      cursor: pointer;
+    }
+
+    button.ayah:focus-visible {
+      outline: 3px solid var(--accent-soft);
+      box-shadow: 0 0 0 6px var(--gold-soft), var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.5);
+    }
+
+    button.ayah:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.5);
+    }
+
+    button.ayah .hint {
+      display: block;
+      margin-top: 10px;
+      font-family: "Readex Pro", sans-serif;
+      font-weight: 300;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      opacity: 0.9;
+    }
+
+    .reflection {
+      font-size: 1.125rem;
+      line-height: 2.15;
+      color: var(--text-soft);
+      margin-top: 0;
+      margin-bottom: 0;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: max-height 350ms ease, opacity 200ms ease, transform 200ms ease, margin-top 200ms ease;
+    }
+
+    .reflection.is-open {
+      margin-top: 16px;
+      max-height: 2600px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reflection strong {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    .reflection br + br {
+      display: block;
+      content: "";
+      margin-top: 0.75em;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 76px 16px 32px;
+      }
+
+      .paper {
+        padding: 32px 24px 40px;
+        border-radius: 16px;
+      }
+
+      .ayah {
+        font-size: 1.35rem;
+        padding: 20px 22px;
+      }
+
+      .reflection {
+        font-size: 1.05rem;
+        margin-bottom: 40px;
+      }
+
+      .site-title {
+        font-size: 0.8rem;
+        letter-spacing: 0.15em;
+      }
+    }
+  </style>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+
+<body>
+  <button class="navbar-back" type="button" onclick="window.location.href='../section.html'" title="Back">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </button>
+
+  <header class="site-title">تدبر آية</header>
+  <div class="paper" id="paper"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const paper = document.getElementById("paper");
+      try {
+        const res = await fetch("content.json");
+        const data = await res.json();
+        paper.innerHTML = data.items.map((item, i) => `
+          <div class="block" style="animation-delay: ${i * 0.12}s">
+            <button class="ayah" type="button" aria-expanded="false" aria-controls="ref-${i}" data-ref="ref-${i}">
+              ${item.ayah}
+              <span class="hint">اضغط لعرض التدبر</span>
+            </button>
+            <div class="reflection" id="ref-${i}">${item.reflection.replace(/\n/g, "<br>")}</div>
+          </div>
+        `).join("");
+      } catch (e) {
+        paper.innerHTML = "<p style='color:#c00'>تعذر تحميل المحتوى. تأكد من وجود ملف content.json</p>";
+      }
+      paper.style.opacity = "1";
+
+      // Toggle reflection on ayah click (event delegation)
+      paper.addEventListener("click", (ev) => {
+        const btn = ev.target.closest("button.ayah");
+        if (!btn) return;
+        const id = btn.getAttribute("data-ref");
+        if (!id) return;
+        const panel = document.getElementById(id);
+        if (!panel) return;
+
+        const isOpen = panel.classList.toggle("is-open");
+        btn.setAttribute("aria-expanded", String(isOpen));
+      });
+    });
+  </script>
+
+</body>
+</html>
