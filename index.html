@@ -213,16 +213,16 @@
             display: block;
             width: 100%;
             text-align: justify;
-            margin-bottom: 0;
+            margin: 0 0 0 0;
             line-height: var(--line-height-verse);
-            min-height: 1.3em;
+            min-height: 0;
             word-spacing: 0.01em;
             letter-spacing: 0;
             text-align-last: right;
         }
 
         .surah-section {
-            margin-bottom: 4px;
+            margin-bottom: 0;
         }
 
         .surah-header {
@@ -230,11 +230,13 @@
             margin: 0 auto;
             padding: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             direction: ltr;
             width: 100%;
             position: relative;
+            gap: 0;
         }
 
         .ayah-text {
@@ -389,11 +391,13 @@
             margin: 0 auto;
             padding: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             direction: ltr;
             width: 100%;
             position: relative;
+            gap: 0;
         }
 
         .surah-header-name {
@@ -401,13 +405,14 @@
             font-size: clamp(3rem, 8vw, 5rem);
             color: var(--text-surah-header);
             font-weight: normal;
-            line-height: 1.2;
+            line-height: 1;
             text-align: center;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             max-width: 100%;
-            margin: 0.15em 0 0.15em 0;
+            margin: 0;
+            padding: 0;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             outline: none;
@@ -447,9 +452,16 @@
         }
 
         .bismillah {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
             text-align: center;
+            font-family: 'common/quran-common', 'UthmanicHafs_v2-0', serif;
             font-size: 30px;
-            margin: 20px 0;
+            margin: 0 0 0.2em 0;
+            padding: 0;
+            line-height: 1;
             color: var(--text-bismillah);
             transition: color 0.3s ease;
         }
@@ -478,7 +490,7 @@
             }
 
             .surah-header-name {
-                font-size: clamp(4.25rem, 18vw, 6rem);
+                font-size: clamp(4.75rem, 20vw, 6.5rem);
             }
 
             .bismillah {
@@ -3190,8 +3202,14 @@
                         if (ayahNum === 1) {
                             const surahNameEsc = surahName.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
                             const headerChar = (typeof SURAH_HEADER_LIGATURES !== 'undefined' && SURAH_HEADER_LIGATURES[surahNum - 1]) ? SURAH_HEADER_LIGATURES[surahNum - 1] : surahName;
+                            const bismillahPart = (surahNum !== 1 && surahNum !== 9) ? (() => {
+                                const bismillahChar = (this.ligatures && this.ligatures.bismillah) ? this.ligatures.bismillah : '\uFDFD';
+                                const bismillahEsc = bismillahChar.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                                return `<div class="bismillah" aria-label="بسم الله الرحمن الرحيم">${bismillahEsc}</div>`;
+                            })() : '';
                             html += `<div class="surah-header">
                                 <span class="surah-header-name" title="${surahNameEsc}" aria-label="${surahNameEsc}">${headerChar}</span>
+                                ${bismillahPart}
                             </div>`;
                         }
                     }
