@@ -499,8 +499,18 @@
                 max-height: 60px;
             }
 
+            .surah-header-name {
+                font-size: clamp(5rem, 22vw + 0.5rem, 8rem);
+            }
+
             .bismillah {
                 font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .surah-header-name {
+                font-size: clamp(5.25rem, 26vw, 8rem);
             }
         }
 
